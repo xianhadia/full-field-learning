@@ -10,6 +10,7 @@
 
 export DDE_BACKEND=pytorch
 export CUBLAS_WORKSPACE_CONFIG=:4096:8
+
 # --- Helper Function to Train, Test, and Move Results ---
 run_experiment() {
     # Arguments: 1: Target_Parent_Dir (e.g., diffusion16), 2+: Training Args
@@ -52,42 +53,43 @@ run_experiment() {
 # ==========================================================
 # DIFFUSION 16
 # ==========================================================
-# 2D
+# 2D FE 0.047087
 run_experiment "diffusion16" --dim 2d --x_path "../data/X_fourier16.npz" --y_path "../data/Y_fourier16.npz" \
     --iters 20000 --eval_start_after 15000 --pe_x 4 --pe_y 4 --pe_cross 2 --batch 8
 
-# 1D
+# 1D FE 0.049322
 run_experiment "diffusion16" --dim 1d --stride_y_train 1 --x_path "../data/X_fourier16.npz" --y_path "../data/Y_fourier16.npz"  \
     --iters 30000 --eval_start_after 25000 --pe_y 36 --batch 64 --lr 3e-4 --activation silu
 
 # ==========================================================
 # DIFFUSION 25
 # ==========================================================
-# 2D
+# 2D FE = 0.044382
 run_experiment "diffusion25" --dim 2d --x_path "../data/X_fourier25.npz" --y_path "../data/Y_fourier25.npz" \
     --iters 35000 --eval_start_after 15000 --pe_x 8 --pe_y 8 --pe_cross 4 --batch 16
-    
+
+# 1D FE = 0.049322
 run_experiment "diffusion25"  --dim 1d --stride_y_train 1 --x_path "../data/X_fourier16.npz" --y_path "../data/Y_fourier16.npz" \
     --iters 30000 --eval_start_after 25000 --pe_y 36 --batch 64 --lr 3e-4 --activation silu
 
 # ==========================================================
 # REACTION-DIFFUSION 16 (Fisher)
 # ==========================================================
-# 2D
+# 2D FE = 0.044260
 run_experiment "reaction_diffusion16" --dim 2d --x_path "../data/X_fourier16.npz" --y_path "../data/Y_fisher16.npz" \
     --iters 30000 --eval_start_after 15000 --pe_x 8 --pe_y 8 --pe_cross 4 --batch 8
 
-# 1D
+# 1D - FE = 0.078264
 run_experiment "reaction_diffusion16" --dim 1d --stride_y_train 1 --x_path "../data/X_fourier16.npz"../data/Y_fisher16.npz" \
     --iters 10000 --eval_start_after 1000 --pe_y 8 --batch 8 --lr 5e-4
 
 # ==========================================================
 # REACTION-DIFFUSION 25 (Fisher)
 # ==========================================================
-# 2D
+# 2D FE = 0.045150
 run_experiment "reaction_diffusion25" --dim 2d --x_path "../data/X_fourier25.npz" --y_path "../data/Y_fisher25.npz" \
     --iters 30000 --eval_start_after 15000 --pe_x 8 --pe_y 8 --pe_cross 4 --batch 8
 
-# 1D
+# 1D FE = 0.082149
 run_experiment "reaction_diffusion25" --dim 1d --stride_y_train 1 --x_path "../data/X_fourier25.npz" --y_path "../data/Y_fisher25.npz" \
     --iters 10000 --eval_start_after 1000 --pe_y 8 --batch 8 --lr 5e-4
